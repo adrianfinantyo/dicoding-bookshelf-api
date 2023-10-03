@@ -20,7 +20,22 @@ const addBook = (req, h) => {
 };
 
 const getAllBooks = (req, h) => {
-  const books = db.getAllBooks();
+  // prepare query to filter books
+  const reqQery = req.query;
+  reqQery.name = reqQery.name || null;
+  reqQery.reading = [0, 1].includes(parseInt(reqQery.reading)) ? parseInt(reqQery.reading) : null;
+  reqQery.finished = [0, 1].includes(parseInt(reqQery.finished)) ? parseInt(reqQery.finished) : null;
+
+  // filter the books
+  let books = db.getAllBooks();
+  books = books.filter(
+    (book) =>
+      (!reqQery.name || book.name.toLowerCase().includes(reqQery.name.toLowerCase())) &&
+      (reqQery.reading === null || book.reading === Boolean(reqQery.reading)) &&
+      (reqQery.finished === null || book.finished === Boolean(reqQery.finished))
+  );
+
+  // prepare response
   const booksData = books.map((book) => ({
     id: book.id,
     name: book.name,

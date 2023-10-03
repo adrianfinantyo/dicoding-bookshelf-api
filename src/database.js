@@ -1,6 +1,6 @@
 const { nanoid } = require("nanoid");
 
-const bookData = [
+const bookDataDummy = [
   {
     id: "Qbax5Oy7L8WKf74l",
     name: "Buku A",
@@ -32,7 +32,7 @@ const bookData = [
 ];
 
 const db = {
-  books: new Map(bookData.map((book) => [book.id, book])),
+  books: process.env.SEED_DATA === "true" ? new Map(bookDataDummy.map((book) => [book.id, book])) : new Map(),
 };
 
 const addBookToShelf = (newBook) => {
