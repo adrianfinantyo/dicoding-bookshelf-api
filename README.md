@@ -10,9 +10,21 @@ Dicoding Bookshelf API merupakan web server application yang dibangun sebagai pr
 - [Mandatory] Update book
 - [Mandatory] Delete book
 - [Optional] Get all books by filter
+- [Optional] Styling code with ESLint and Prettier
+
+## NPM Scripts
+
+| NPM Script       | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| `start`          | Menjalankan aplikasi pada mode production                    |
+| `start:dev`      | Menjalankan aplikasi pada mode development                   |
+| `start:dev-seed` | Menjalankan aplikasi pada mode development dengan dummy data |
+| `lint`           | Menjalankan ESLint                                           |
+| `lint:fix`       | Menjalankan ESLint dan memperbaiki kesalahan yang ditemukan  |
+| `test`           | Menjalankan test script                                      |
 
 ## Identitas Pengembang
 
-| Nama                               | Program Pembelajaran                                | Profil                                                                             |
-| ---------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Bonifasius Ariesto Adrian Finantyo | Bangkit Academy led by Google, Gojek, and Tokopedia | ![Adrian's pict](https://adrianfinantyo.com/images/adrianfinantyo-profilepict.png) |
+| Nama                                                                                          | Program Pembelajaran                                         | Foto Profil                                                                                                                                    |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Bonifasius Ariesto Adrian Finantyo](https://www.dicoding.com/users/adrianfinantyo/academies) | Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka | ![Adrian's pict](https://dicoding-web-img.sgp1.cdn.digitaloceanspaces.com/small/avatar/dos:3e4ce4920698d1c90c27901c5bdcee4320221214020126.png) |

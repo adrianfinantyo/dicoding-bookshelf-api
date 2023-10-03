@@ -8,7 +8,7 @@
     "start:dev": "nodemon src/server.js",
     "start:dev-seed": "SEED_DATA=true nodemon src/server.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "prettier --write . && eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
