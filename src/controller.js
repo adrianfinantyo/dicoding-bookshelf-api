@@ -23,16 +23,22 @@ const getAllBooks = (req, h) => {
   // prepare query to filter books
   const reqQery = req.query;
   reqQery.name = reqQery.name || null;
-  reqQery.reading = [0, 1].includes(parseInt(reqQery.reading)) ? parseInt(reqQery.reading) : null;
-  reqQery.finished = [0, 1].includes(parseInt(reqQery.finished)) ? parseInt(reqQery.finished) : null;
+  reqQery.reading = [0, 1].includes(parseInt(reqQery.reading, 10))
+    ? parseInt(reqQery.reading, 10)
+    : null;
+  reqQery.finished = [0, 1].includes(parseInt(reqQery.finished, 10))
+    ? parseInt(reqQery.finished, 10)
+    : null;
 
   // filter the books
   let books = db.getAllBooks();
   books = books.filter(
     (book) =>
-      (!reqQery.name || book.name.toLowerCase().includes(reqQery.name.toLowerCase())) &&
+      (!reqQery.name ||
+        book.name.toLowerCase().includes(reqQery.name.toLowerCase())) &&
       (reqQery.reading === null || book.reading === Boolean(reqQery.reading)) &&
-      (reqQery.finished === null || book.finished === Boolean(reqQery.finished))
+      (reqQery.finished === null ||
+        book.finished === Boolean(reqQery.finished)),
   );
 
   // prepare response
@@ -49,10 +55,13 @@ const getAllBooks = (req, h) => {
 };
 
 const getBookById = (req, h) => {
-  const bookId = req.params.bookId;
+  const { bookId } = req.params;
   const book = db.getBookFromShelf(bookId);
   if (book === undefined) {
-    return util.createErrorInstance(contant.RESPONSE_MESSAGE.ERR_BOOK_NOT_FOUND, 404);
+    return util.createErrorInstance(
+      contant.RESPONSE_MESSAGE.ERR_BOOK_NOT_FOUND,
+      404,
+    );
   }
   const data = {
     message: contant.RESPONSE_MESSAGE.OK_GET_BOOK_BY_ID,
@@ -63,7 +72,7 @@ const getBookById = (req, h) => {
 
 const editBookById = (req, h) => {
   try {
-    const bookId = req.params.bookId;
+    const { bookId } = req.params;
     const newBookData = req.payload;
     const updatedBook = db.updateBookOnShelf(bookId, newBookData);
     const data = {
@@ -72,20 +81,26 @@ const editBookById = (req, h) => {
     };
     return util.responseJSON(h, data, 200);
   } catch (error) {
-    return util.createErrorInstance(`${contant.RESPONSE_MESSAGE.ERR_UPDATE_BOOK}. ${error.message}`, 404);
+    return util.createErrorInstance(
+      `${contant.RESPONSE_MESSAGE.ERR_UPDATE_BOOK}. ${error.message}`,
+      404,
+    );
   }
 };
 
 const deleteBookById = (req, h) => {
   try {
-    const bookId = req.params.bookId;
+    const { bookId } = req.params;
     db.deleteBookFromShelf(bookId);
     const data = {
       message: "Buku berhasil dihapus",
     };
     return util.responseJSON(h, data, 200);
   } catch (error) {
-    return util.createErrorInstance(`${contant.RESPONSE_MESSAGE.ERR_DELETE_BOOK}. ${error.message}`, 404);
+    return util.createErrorInstance(
+      `${contant.RESPONSE_MESSAGE.ERR_DELETE_BOOK}. ${error.message}`,
+      404,
+    );
   }
 };
 

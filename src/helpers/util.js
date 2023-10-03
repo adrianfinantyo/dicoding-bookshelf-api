@@ -4,12 +4,11 @@ const getStatusByCode = (code) => {
 };
 
 const responseJSON = (h, data, code) => {
-  if (data.data === undefined) delete data.data;
   const { message, ...rest } = data;
   const isDataEmpty = Object.keys(rest).length === 0;
   const res = h.response({
     status: getStatusByCode(code),
-    message: message,
+    message,
     data: rest,
   });
   if (isDataEmpty) delete res.data;
@@ -18,11 +17,10 @@ const responseJSON = (h, data, code) => {
   return res;
 };
 
-const responseError = (h, message, code) => {
-  if (code === undefined) code = 500;
+const responseError = (h, message, code = 500) => {
   const res = h.response({
     status: getStatusByCode(code),
-    message: message,
+    message,
   });
   res.code(code);
   res.type("application/json");

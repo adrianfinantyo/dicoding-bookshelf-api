@@ -32,10 +32,14 @@ const bookDataDummy = [
 ];
 
 const db = {
-  books: process.env.SEED_DATA === "true" ? new Map(bookDataDummy.map((book) => [book.id, book])) : new Map(),
+  books:
+    process.env.SEED_DATA === "true"
+      ? new Map(bookDataDummy.map((book) => [book.id, book]))
+      : new Map(),
 };
 
-const addBookToShelf = (newBook) => {
+const addBookToShelf = (book) => {
+  const newBook = { ...book };
   const timestamp = new Date().toISOString();
   newBook.id = nanoid(16);
   newBook.insertedAt = timestamp;
@@ -44,26 +48,21 @@ const addBookToShelf = (newBook) => {
   return newBook.id;
 };
 
-const getBookFromShelf = (bookId) => {
-  return db.books.get(bookId);
-};
+const getBookFromShelf = (bookId) => db.books.get(bookId);
 
-const updateBookOnShelf = (bookId, updatedBook) => {
+const updateBookOnShelf = (bookId, bookData) => {
   const timestamp = new Date().toISOString();
-  const book = db.books.get(bookId);
-  if (book === undefined) {
+  const existingBook = db.books.get(bookId);
+  if (existingBook === undefined) {
     throw new Error("Id tidak ditemukan");
   }
-  updatedBook.id = book.id;
-  updatedBook.insertedAt = book.insertedAt;
+  const updatedBook = { ...existingBook, ...bookData };
   updatedBook.updatedAt = timestamp;
   db.books.set(bookId, updatedBook);
   return updatedBook;
 };
 
-const getAllBooks = () => {
-  return [...db.books.values()];
-};
+const getAllBooks = () => [...db.books.values()];
 
 const deleteBookFromShelf = (bookId) => {
   const book = db.books.get(bookId);

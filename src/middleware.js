@@ -11,32 +11,34 @@ const isFinishedReading = (req, h) => {
   return h.continue;
 };
 
-const validateReadPage = (actionType) => {
-  return (req, h) => {
-    let msgHeader = contant.RESPONSE_MESSAGE.ERR_ADD_BOOK;
-    if (actionType === contant.ACTION_TYPE.UPDATE) {
-      msgHeader = contant.RESPONSE_MESSAGE.ERR_UPDATE_BOOK;
-    }
-    const { readPage, pageCount } = req.payload;
-    if (readPage > pageCount) {
-      return util.createErrorInstance(`${msgHeader}. readPage tidak boleh lebih besar dari pageCount`, 400);
-    }
-    return h.continue;
-  };
+const validateReadPage = (actionType) => (req, h) => {
+  let msgHeader = contant.RESPONSE_MESSAGE.ERR_ADD_BOOK;
+  if (actionType === contant.ACTION_TYPE.UPDATE) {
+    msgHeader = contant.RESPONSE_MESSAGE.ERR_UPDATE_BOOK;
+  }
+  const { readPage, pageCount } = req.payload;
+  if (readPage > pageCount) {
+    return util.createErrorInstance(
+      `${msgHeader}. readPage tidak boleh lebih besar dari pageCount`,
+      400,
+    );
+  }
+  return h.continue;
 };
 
-const requiredField = (options) => {
-  return (req, h) => {
-    const { fieldName, translateFieldName, actionType } = options;
-    let msgHeader = contant.RESPONSE_MESSAGE.ERR_ADD_BOOK;
-    if (actionType === contant.ACTION_TYPE.UPDATE) {
-      msgHeader = contant.RESPONSE_MESSAGE.ERR_UPDATE_BOOK;
-    }
-    if (!req.payload[fieldName]) {
-      return util.createErrorInstance(`${msgHeader}. Mohon isi ${translateFieldName} buku`, 400);
-    }
-    return h.continue;
-  };
+const requiredField = (options) => (req, h) => {
+  const { fieldName, translateFieldName, actionType } = options;
+  let msgHeader = contant.RESPONSE_MESSAGE.ERR_ADD_BOOK;
+  if (actionType === contant.ACTION_TYPE.UPDATE) {
+    msgHeader = contant.RESPONSE_MESSAGE.ERR_UPDATE_BOOK;
+  }
+  if (!req.payload[fieldName]) {
+    return util.createErrorInstance(
+      `${msgHeader}. Mohon isi ${translateFieldName} buku`,
+      400,
+    );
+  }
+  return h.continue;
 };
 
 module.exports = {
